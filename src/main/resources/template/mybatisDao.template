@@ -1,0 +1,10 @@
+package ${mapperPackage};
+
+import org.apache.ibatis.annotations.Param;
+import ${@beanClass.getName()};
+public interface ${mapperClassName} {
+
+    int insert(${@beanClass.getSimpleName()} ${utils.unCapital(@beanClass.getSimpleName())});
+
+    int update(${@beanClass.getSimpleName()} ${utils.unCapital(@beanClass.getSimpleName())});
+}

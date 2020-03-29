@@ -1,0 +1,9 @@
+package ${src.packageName}
+
+class ${src.className}  {
+
+<% for(f in src.fields){ %>
+${@f.getType().getSimpleName()} ${f.name}
+<% } %>
+
+}

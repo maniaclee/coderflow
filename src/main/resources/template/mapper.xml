@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="${mapperClassName}">
+    <sql id="allFields">
+        <%
+        for(var i=0;i<@table.getFields().size();i++){
+         var field = @table.getFields().get(i).getName();
+         var seperator =  i ==@table.getFields().size()-1?"":",";
+        %>
+          ${field}${seperator}
+        <% } %>
+    </sql>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="${@beanClass.getName()}">
+        INSERT INTO ${table.name}
+        (
+        <include refid="allFields"/>
+        )
+        values(
+        <%
+        for(var i=0;i<@table.getFields().size();i++){
+        var field = @table.getFields().get(i).getName();
+        var javaField = @table.getFields().get(i).getNameCamel();
+        var seperator =  i ==@table.getFields().size()-1?"":",";
+        %>
+        ${field} = #{${javaField}}${seperator}
+        <% } %>
+        )
+    </insert>
+    <update id="update" parameterType="map">
+        update ${table.name}
+        set
+        <%
+        for(var i=0;i<@table.getFields().size();i++){
+        var field = @table.getFields().get(i).getName();
+        var javaField = @table.getFields().get(i).getNameCamel();
+        var seperator =  i ==@table.getFields().size()-1?"":",";
+        %>
+        <set>
+            <if test="${javaField} != null">
+                ${field} = #{${javaField}}${seperator}
+            </if>
+        <% } %>
+        </set>
+        where ${table.primaryKey} = #{${utils.camel(table.primaryKey)}}
+    </update>
+</mapper>

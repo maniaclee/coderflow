@@ -1,0 +1,31 @@
+package ${@src.getPackage().getName()}
+
+import java.io.Serializable;
+
+public class ${@src.getSimpleName()} implements Serializable {
+    private static final long serialVersionUID = -1;
+
+    <%for( f in utils.getFields(src)){
+            var type = @f.getType().getSimpleName();
+            var name = @f.getName();
+        %>
+    private ${type} ${name};
+    <% }%>
+
+    <%for( f in utils.getFields(src)){
+            var type = @f.getType().getSimpleName();
+            var name = @f.getName();
+            var upperName = utils.capital(name);
+            var getterPrefix = utils.isPrimitiveBoolean(@f.getType())?"is":"get";
+        %>
+
+    public ${type} ${getterPrefix}${upperName}() {
+            return ${name};
+     }
+
+    public void set${upperName}(${type} ${name}) {
+            this.${name} = ${name};
+    }
+    <% }%>
+
+}
