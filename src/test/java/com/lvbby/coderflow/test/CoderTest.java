@@ -1,11 +1,8 @@
 package com.lvbby.coderflow.test;
 
-import com.alibaba.fastjson.JSON;
-import com.lvbby.flashflow.core.tool.FlowActionInfo;
+import com.lvbby.flashflow.core.Flow;
 import com.lvbby.flashflow.core.tool.FlowTool;
 import org.junit.Test;
-
-import java.util.List;
 
 /**
  *
@@ -14,16 +11,10 @@ import java.util.List;
  */
 public class CoderTest {
 
-    @Test
-    public void name() throws Exception {
-        String packages = "com.lvbby.coderflow";
-        List<FlowActionInfo> flowPropInfos = FlowTool.scanActionProps(packages);
-        System.out.println(JSON.toJSONString(flowPropInfos,true));
-        System.out.println(JSON.toJSONString(FlowTool.scanGlobalProps(packages),true));
-    }
 
     @Test
     public void doc() throws Exception {
-        System.out.println(FlowTool.createFlowDoc("com.lvbby.coderflow"));
+        Flow.scanProps("com.lvbby.coderflow");
+        System.out.println(FlowTool.createFlowDoc());
     }
 }

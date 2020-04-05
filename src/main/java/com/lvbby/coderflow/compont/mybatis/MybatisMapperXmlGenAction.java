@@ -1,13 +1,18 @@
 package com.lvbby.coderflow.compont.mybatis;
+
 import com.alibaba.fastjson.JSONObject;
 import com.lvbby.coderflow.flow.CoderFlowKeys;
+import com.lvbby.coderflow.flow.CoderProps;
 import com.lvbby.coderflow.model.SqlTable;
 import com.lvbby.coderflow.utils.CommonUtils;
 import com.lvbby.flashflow.core.AbstractFlowAction;
 import com.lvbby.flashflow.core.FlowContext;
 import com.lvbby.flashflow.core.anno.FlowAction;
 import com.lvbby.flashflow.core.utils.FlowHelper;
+import com.lvbby.flashflow.core.utils.FlowUtils;
 import org.springframework.stereotype.Component;
+
+import java.io.File;
 
 /**
  *
@@ -19,9 +24,14 @@ import org.springframework.stereotype.Component;
 public class MybatisMapperXmlGenAction extends AbstractFlowAction {
 
     public void invoke(FlowContext context) throws Exception {
+        MybatisConfig config = FlowHelper.getValueOrProp(CoderProps.mybatisGenerator, MybatisConfig.class);
+        FlowUtils.isTrue(config!=null,"mybatis config not found");
+
         SqlTable table = FlowHelper.getValueOrProp(CoderFlowKeys.dbTable);
         Class beanClass = FlowHelper.getValueOrProp(CoderFlowKeys.beanClass);
-        String mapperPackage = FlowHelper.getValueOrProp(MybatisDaoGenAction.mybatisMapperPackage);
+
+        String mapperPackage = config.getMapperPackage();
+
         String mapperFullName = String.format("%s.%sMapper", mapperPackage,beanClass.getSimpleName());
 
 
@@ -31,6 +41,8 @@ public class MybatisMapperXmlGenAction extends AbstractFlowAction {
                 .fluentPut("beanClass",beanClass)
         );
 
+        context.put(CoderFlowKeys.fileWriteSrc,script);
+        context.put(CoderFlowKeys.fileWritePath,new File(config.getMapperXmlDir(), String.format("%sMapper.xml", table.getName())).getAbsolutePath());
         System.out.println(script);
     }
 }

@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 public class DbBeanGenAction extends AbstractFlowAction {
 
     @FlowProp
-    public static final FlowKey<String> beanPackage = new FlowKey<>("beanPackage");
+    public static final FlowKey<String> beanPackage = new FlowKey<>("db.bean.package");
 
     public void invoke(FlowContext context) throws Exception {
         SqlTable table = FlowHelper.getValueOrProp(CoderFlowKeys.dbTable);
@@ -40,5 +40,9 @@ public class DbBeanGenAction extends AbstractFlowAction {
 
         context.put(CoderFlowKeys.beanClass, clz);
         context.put(CoderFlowKeys.beanClassFullName, clz.getName());
+        String javaSrc = CommonUtils.renderTemplate("template/javaBean.template", new JSONObject().fluentPut("src",clz));
+
+        /** support writer */
+        context.put(CoderFlowKeys.beanJavaSrc,javaSrc);
     }
 }

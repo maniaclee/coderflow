@@ -1,0 +1,32 @@
+{
+  "scripts":[
+    {
+      "code":"mybatisTest",
+      "pipeline":{
+        "actionId":"datasourceAction",
+        "children":[
+          {"actionId":"datasourceAction"},
+          {"actionId":"dbTablesAction"},
+          {"actionId":"dbBeanGenAction"},
+          {"actionId":"javaSrcWriterAction"},
+          {"actionId":"mybatisDaoGenAction"},
+          {"actionId":"javaSrcWriterAction"},
+          {"actionId":"mybatisMapperXmlGenAction"},
+          {"actionId":"fileWriterAction"}
+        ]
+      },
+      "props":{
+        "mybatisGenerator": {
+          "mapperPackage":"com.lvbby.test.mapper",
+          "mapperXmlDir":"/Users/dushang.lp/workspace/project/coderflow/src/test/resousrces/_gen"
+        },
+        "java.src": "/Users/dushang.lp/workspace/project/coderflow/src/test/java",
+        "db.tables": ["article"],
+        "db.bean.package": "com.lvbby.test",
+        "db.jdbcUrl": "jdbc:mysql://localhost:3306/lvbby",
+        "db.jdbcUser": "test",
+        "db.jdbcPwd": "12345"
+      }
+    }
+  ]
+}

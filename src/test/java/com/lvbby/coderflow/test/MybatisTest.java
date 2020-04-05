@@ -5,13 +5,18 @@ import com.lvbby.coderflow.compont.BeanAction;
 import com.lvbby.coderflow.compont.DatasourceAction;
 import com.lvbby.coderflow.compont.DbBeanGenAction;
 import com.lvbby.coderflow.compont.DbTablesAction;
+import com.lvbby.coderflow.compont.FileWriterAction;
+import com.lvbby.coderflow.compont.JavaSrcWriterAction;
+import com.lvbby.coderflow.compont.PrintAction;
+import com.lvbby.coderflow.compont.mybatis.MybatisConfig;
 import com.lvbby.coderflow.compont.mybatis.MybatisDaoGenAction;
 import com.lvbby.coderflow.compont.mybatis.MybatisMapperXmlGenAction;
-import com.lvbby.coderflow.compont.PrintAction;
 import com.lvbby.coderflow.flow.CoderFlowKeys;
+import com.lvbby.coderflow.flow.CoderProps;
 import com.lvbby.coderflow.test.model.TestBean;
 import com.lvbby.flashflow.core.Flow;
 import com.lvbby.flashflow.core.FlowContext;
+import com.lvbby.flashflow.core.utils.FlowUtils;
 import org.junit.Test;
 
 /**
@@ -23,27 +28,39 @@ public class MybatisTest {
 
     @Test
     public void name() throws Exception {
-
-        //Field field = getClass().getDeclaredFields()[0];
-        //Flow.scan("com.lvbby");
         FlowContext context = new FlowContext();
-        context.put(DatasourceAction.jdbcUrl,"jdbc:mysql://an.lvbby.com:3306/lvbby");
-        context.put(DatasourceAction.jdbcUser,"lee");
-        context.put(DatasourceAction.jdbcPwd,"#Caonima123");
+        context.put(DatasourceAction.jdbcUrl,"jdbc:mysql://localhost:3306/lvbby");
+        context.put(DatasourceAction.jdbcUser,"test");
+        context.put(DatasourceAction.jdbcPwd,"12345");
         context.put(DbTablesAction.tables, Lists.newArrayList("article"));
-        context.put(DbBeanGenAction.beanPackage, "com.lvbby.mybatis.test");
-        context.put(MybatisDaoGenAction.mybatisMapperPackage, "com.lvbby.mybatis.test.dao");
+        context.put(DbBeanGenAction.beanPackage, "com.lvbby.coderflow.test._gen");
+        context.put(CoderProps.javaSrcDirectory, "/Users/dushang.lp/workspace/project/coderflow/src/test/java");
+
+        MybatisConfig mybatisConfig = new MybatisConfig();
+        mybatisConfig.setMapperPackage("com.lvbby.coderflow.test._gen");
+        mybatisConfig.setMapperXmlDir("/Users/dushang.lp/workspace/project/coderflow/src/test/resousrces/_gen");
+
+        context.put(CoderProps.mybatisGenerator, mybatisConfig);
 
 
         Flow.execSimple(context,
                 new DatasourceAction(),//datasource
                 new DbTablesAction(), //加载表，转换模型
-                new DbBeanGenAction(),
-                new BeanAction(),
+                new DbBeanGenAction(), //生成bean
+                new JavaSrcWriterAction(),
                 new PrintAction(CoderFlowKeys.beanJavaSrc),
                 new MybatisDaoGenAction(),
-                new MybatisMapperXmlGenAction()
+                new JavaSrcWriterAction(),
+                new MybatisMapperXmlGenAction(),
+                new FileWriterAction()
         );
+    }
+
+    @Test
+    public void mybatisJsonConfig() throws Exception {
+        Flow.loadConfig(FlowUtils.readResourceFile("flow/mybatis.json"));
+        Flow.scanActions("com.lvbby.coderflow");
+        Flow.exec(new FlowContext("mybatisTest"));
     }
 
     @Test

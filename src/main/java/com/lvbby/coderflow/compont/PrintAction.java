@@ -1,18 +1,23 @@
 package com.lvbby.coderflow.compont;
 
 import com.alibaba.fastjson.JSON;
+import com.lvbby.flashflow.core.AbstractFlowAction;
 import com.lvbby.flashflow.core.FlowContext;
 import com.lvbby.flashflow.core.FlowKey;
+import com.lvbby.flashflow.core.anno.FlowAction;
 import com.lvbby.flashflow.core.anno.FlowProp;
 import com.lvbby.flashflow.core.utils.FlowHelper;
 import org.apache.commons.lang3.StringUtils;
 
 /**
  * 打印
+ * 支持new的方式及单例模式
+ * 读取prop和value
  * @author dushang.lp
  * @version $Id: PrintAction.java, v 0.1 2020年03月28日 下午4:08 dushang.lp Exp $
  */
-public class PrintAction extends AbtAction {
+@FlowAction
+public class PrintAction extends AbstractFlowAction {
 
     private String key;
 
@@ -39,7 +44,7 @@ public class PrintAction extends AbtAction {
         if (StringUtils.isBlank(printKey)) {
             return;
         }
-        Object value = context.getValue(printKey);
+        Object value = FlowHelper.getValueOrProp(printKey);
         if(value!=null && !(value instanceof String)){
             value = JSON.toJSONString(value, true);
         }

@@ -30,13 +30,13 @@
     <update id="update" parameterType="map">
         update ${table.name}
         set
+        <set>
         <%
         for(var i=0;i<@table.getFields().size();i++){
         var field = @table.getFields().get(i).getName();
         var javaField = @table.getFields().get(i).getNameCamel();
         var seperator =  i ==@table.getFields().size()-1?"":",";
         %>
-        <set>
             <if test="${javaField} != null">
                 ${field} = #{${javaField}}${seperator}
             </if>

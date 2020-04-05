@@ -9,6 +9,8 @@ import com.lvbby.flashflow.core.template.BeetlTemplateEngine;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ClassUtils;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -18,6 +20,16 @@ import java.util.Properties;
  * @version $Id: CommonUtils.java, v 0.1 2020年03月26日 下午7:40 dushang.lp Exp $
  */
 public class CommonUtils {
+
+    public static void write(String s, File file) {
+        try {
+            FileWriter output = new FileWriter(file);
+            IOUtils.write(s, output);
+            output.flush();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public static String renderTemplate(String classPathResource, JSONObject args) {
         String template = readResource(classPathResource);
@@ -31,15 +43,16 @@ public class CommonUtils {
         return aClass == null ? clz : aClass;
     }
 
-    public static String objectString(Object s ){
-        if(s ==null ){
+    public static String objectString(Object s) {
+        if (s == null) {
             return null;
         }
-        if (s instanceof String){
+        if (s instanceof String) {
             return (String) s;
         }
         return JSON.toJSONString(s, true);
     }
+
     public static String readResource(String classPathResource) {
         try {
             return IOUtils.toString(CommonUtils.class.getClassLoader().getResourceAsStream(classPathResource));

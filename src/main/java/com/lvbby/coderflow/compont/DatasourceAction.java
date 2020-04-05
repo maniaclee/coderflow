@@ -21,13 +21,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class DatasourceAction extends AbstractFlowAction {
 
-    @FlowProp(desc = "jdbc:访问db")
-    public static final FlowKey<String> jdbcUrl = new FlowKey<>("jdbcUrl");
-    @FlowProp(desc = "jdbc的用户名")
-    public static final FlowKey<String> jdbcUser = new FlowKey<>("jdbcUser");
-    @FlowProp(desc = "jdbc的密码")
-    public static final FlowKey<String> jdbcPwd = new FlowKey<>("jdbcPwd");
-
+    @FlowProp("jdbc:访问db")
+    public static final FlowKey<String> jdbcUrl  = new FlowKey<>("db.jdbcUrl");
+    @FlowProp("jdbc的用户名")
+    public static final FlowKey<String> jdbcUser = new FlowKey<>("db.jdbcUser");
+    @FlowProp("jdbc的密码")
+    public static final FlowKey<String> jdbcPwd  = new FlowKey<>("db.jdbcPwd");
 
     public void invoke(FlowContext context) throws Exception {
         String jdbcUrl = FlowHelper.getValueOrProp(DatasourceAction.jdbcUrl);

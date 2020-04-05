@@ -19,9 +19,17 @@ public class CoderFlowKeys {
     public static final FlowKey<List<SqlTable>> dbTables     = new FlowKey<>("dbTables");
     public static final FlowKey<SqlTable>       dbTable      = new FlowKey<>("dbTable");
 
-    public static final FlowKey<Class>       beanClass      = new FlowKey<>("beanClass");
-    public static final FlowKey<String>       beanClassFullName      = new FlowKey<>("beanClassFullName");
+    public static final FlowKey<Class>         beanClass         = new FlowKey<>("beanClass");
+    public static final FlowKey<String>        beanClassFullName = new FlowKey<>("beanClassFullName");
     /** 当前java src */
-    public static final FlowKey<String>       beanJavaSrc      = new FlowKey<>("beanJavaSrc");
+    public static final FlowKey<String>        beanJavaSrc       = new FlowKey<>("beanJavaSrc");
 
+    /**
+     * 写文件：文件内容
+     */
+    public static final FlowKey<String>        fileWriteSrc       = new FlowKey<>("fileWriteSrc");
+    /**
+     * 写文件：文件全路径
+     */
+    public static final FlowKey<String>        fileWritePath       = new FlowKey<>("fileWritePath");
 }

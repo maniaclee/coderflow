@@ -7,10 +7,9 @@ import com.lvbby.coderflow.model.SqlColumn;
 import com.lvbby.coderflow.model.SqlTable;
 import com.lvbby.coderflow.model.SqlType;
 import com.lvbby.flashflow.core.FlowContext;
-import com.lvbby.flashflow.core.FlowFrameWorkKeys;
 import com.lvbby.flashflow.core.FlowKey;
+import com.lvbby.flashflow.core.anno.FlowAction;
 import com.lvbby.flashflow.core.anno.FlowProp;
-import com.lvbby.flashflow.core.model.FlowStreamModel;
 import com.lvbby.flashflow.core.utils.FlowHelper;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Component;
@@ -27,10 +26,11 @@ import java.util.stream.Collectors;
  * @author dushang.lp
  * @version $Id: DbTableReaderAction.java, v 0.1 2020年03月26日 下午7:55 dushang.lp Exp $
  */
+@FlowAction
 @Component
 public class DbTablesAction extends AbtAction {
     @FlowProp
-    public static final FlowKey<List<String>> tables = new FlowKey<>("tables");
+    public static final FlowKey<List<String>> tables = new FlowKey<>("db.tables");
 
     @Override
     public void invoke(final FlowContext context) {
@@ -48,7 +48,7 @@ public class DbTablesAction extends AbtAction {
                 }).collect(Collectors.toList());
         context.put(CoderFlowKeys.dbTables, tables);
         //dispatch
-        context.put(FlowFrameWorkKeys.stream,new FlowStreamModel(CoderFlowKeys.dbTable.getKey(),tables));
+        FlowHelper.stream(CoderFlowKeys.dbTable.getKey(),tables);
     }
 
     private String getPrimaryKey(DataSource dataSource,String table)  {
