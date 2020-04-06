@@ -1,0 +1,58 @@
+package ${packageName};
+
+import org.apache.commons.lang.StringUtils;
+
+public enum ${name} {
+
+    DEFAUL("DEFAUL", "DEFAUL"),
+    ;
+
+    /** code */
+    private final String code;
+    /** desc */
+    private final String desc;
+
+    /**
+     * 构造器
+     * @param code code
+     * @param desc desc
+     */
+    ${name}(String code, String desc) {
+        this.code = code;
+        this.desc = desc;
+    }
+
+    /**
+     * 解析
+     *
+     * @param code code
+     * @return ${name}
+     */
+    public static ${name} findEnumByCode(String code) {
+        for (${name} state : values()) {
+            if (StringUtils.equals(state.getCode(), code)) {
+                return state;
+            }
+        }
+        return null;
+    }
+
+
+    /**
+     * Getter method for property   code.
+     *
+     * @return property value of code
+     */
+    public String getCode() {
+        return code;
+    }
+
+    /**
+     * Getter method for property   desc.
+     *
+     * @return property value of desc
+     */
+    public String getDesc() {
+        return desc;
+    }
+}

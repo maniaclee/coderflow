@@ -30,7 +30,6 @@ public class MybatisDaoGenAction extends AbstractFlowAction {
                 .fluentPut("beanClass",beanClass)
         );
         //设置当前bean上下文
-        context.put(CoderFlowKeys.beanClassFullName, String.format("%s.%s", mapperPackage,mapperClassName));
         context.put(CoderFlowKeys.beanJavaSrc,script);
     }
 

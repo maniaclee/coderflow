@@ -41,8 +41,8 @@ public class MybatisMapperXmlGenAction extends AbstractFlowAction {
                 .fluentPut("beanClass",beanClass)
         );
 
-        context.put(CoderFlowKeys.fileWriteSrc,script);
-        context.put(CoderFlowKeys.fileWritePath,new File(config.getMapperXmlDir(), String.format("%sMapper.xml", table.getName())).getAbsolutePath());
+        context.put(CoderProps.fileWriteSrc,script);
+        context.put(CoderProps.fileWritePath,new File(config.getMapperXmlDir(), String.format("%sMapper.xml", table.getName())).getAbsolutePath());
         System.out.println(script);
     }
 }

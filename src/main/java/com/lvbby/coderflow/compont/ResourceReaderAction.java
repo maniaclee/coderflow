@@ -7,8 +7,10 @@ import com.lvbby.flashflow.core.anno.FlowAction;
 import com.lvbby.flashflow.core.anno.FlowProp;
 import com.lvbby.flashflow.core.utils.FlowHelper;
 import com.lvbby.flashflow.core.utils.FlowUtils;
+import org.jsoup.Jsoup;
 
 import java.io.FileInputStream;
+import java.net.URL;
 
 /**
  * 读取资源放入context里
@@ -21,7 +23,7 @@ public class ResourceReaderAction extends AbstractFlowAction {
 
     @FlowProp("资源路径")
     public static FlowKey<String> resourcePath = new FlowKey<>("resource.path");
-    @FlowProp("资源类型:file/classpathFile")
+    @FlowProp("资源类型:file、classpathFile、webUrl")
     public static FlowKey<String> resourceType = new FlowKey<>("resource.type");
 
 
@@ -42,6 +44,10 @@ public class ResourceReaderAction extends AbstractFlowAction {
         }
         if(resourceTypeEnum == ResourceTypeEnum.file){
             context.put(resource,FlowUtils.readFile(new FileInputStream(path)));
+            return;
+        }
+        if(resourceTypeEnum == ResourceTypeEnum.webUrl){
+            context.put(resource, Jsoup.parse(new URL(path),10000));
             return;
         }
     }

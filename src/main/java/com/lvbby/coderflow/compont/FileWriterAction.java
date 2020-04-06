@@ -1,6 +1,6 @@
 package com.lvbby.coderflow.compont;
 
-import com.lvbby.coderflow.flow.CoderFlowKeys;
+import com.lvbby.coderflow.flow.CoderProps;
 import com.lvbby.coderflow.utils.CommonUtils;
 import com.lvbby.flashflow.core.FlowContext;
 import com.lvbby.flashflow.core.anno.FlowAction;
@@ -21,8 +21,8 @@ public class FileWriterAction extends AbtAction{
     @Override
     public void invoke(FlowContext context) throws Exception {
 
-        String filePath = FlowHelper.getValueOrProp(CoderFlowKeys.fileWritePath);
-        String src = FlowHelper.getValueOrProp(CoderFlowKeys.fileWriteSrc);
+        String filePath = FlowHelper.getValueOrProp(CoderProps.fileWritePath);
+        String src = FlowHelper.getValueOrProp(CoderProps.fileWriteSrc);
         FlowUtils.isTrue(FlowUtils.isNotBlank(filePath),"file path can't be blank");
         FlowUtils.isTrue(FlowUtils.isNotBlank(src),"src can't be blank");
 

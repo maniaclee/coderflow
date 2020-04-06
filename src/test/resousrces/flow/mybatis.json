@@ -8,21 +8,22 @@
           {"actionId":"datasourceAction"},
           {"actionId":"dbTablesAction"},
           {"actionId":"dbBeanGenAction"},
-          {"actionId":"javaSrcWriterAction"},
+          {"actionId":"printAction","props":{"printKey":"beanJavaSrc"}},
           {"actionId":"mybatisDaoGenAction"},
-          {"actionId":"javaSrcWriterAction"},
+          {"actionId":"printAction","props":{"printKey":"beanJavaSrc"}},
           {"actionId":"mybatisMapperXmlGenAction"},
           {"actionId":"fileWriterAction"}
         ]
       },
       "props":{
         "mybatisGenerator": {
-          "mapperPackage":"com.lvbby.test.mapper",
+          "mapperPackage":"com.lvbby.coderflow.test._gen",
           "mapperXmlDir":"/Users/dushang.lp/workspace/project/coderflow/src/test/resousrces/_gen"
         },
         "java.src": "/Users/dushang.lp/workspace/project/coderflow/src/test/java",
         "db.tables": ["article"],
-        "db.bean.package": "com.lvbby.test",
+        "db.bean.package": "com.lvbby.coderflow.test._gen",
+        "db.bean.nameFunc": "src+'DO'",
         "db.jdbcUrl": "jdbc:mysql://localhost:3306/lvbby",
         "db.jdbcUser": "test",
         "db.jdbcPwd": "12345"

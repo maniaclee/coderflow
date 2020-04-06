@@ -14,6 +14,7 @@ import com.lvbby.flashflow.core.utils.FlowHelper;
 import com.lvbby.flashflow.core.utils.FlowUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -26,12 +27,25 @@ import java.util.stream.Collectors;
 public class DbBeanGenAction extends AbstractFlowAction {
 
     @FlowProp
-    public static final FlowKey<String> beanPackage = new FlowKey<>("db.bean.package");
+    public static final FlowKey<String>   beanPackage = new FlowKey<>("db.bean.package");
+    /***
+     * 生成bean的name命名方式
+     */
+    @FlowProp
+    public static final FlowKey<Function<String,String>> beanNameFunc = new FlowKey<>("db.bean.nameFunc");
 
     public void invoke(FlowContext context) throws Exception {
         SqlTable table = FlowHelper.getValueOrProp(CoderFlowKeys.dbTable);
 
-        ClassBeanInfo classBeanInfo = new ClassBeanInfo(table.getName(),FlowHelper.getValueOrProp(beanPackage));
+        String beanName = table.getName();
+
+        //bean名称自定义
+        Function<String, String> beanNameFunction = FlowHelper.getValueOrProp(beanNameFunc);
+        if(beanNameFunction!=null){
+            beanName = beanNameFunction.apply(beanName);
+        }
+
+        ClassBeanInfo classBeanInfo = new ClassBeanInfo(beanName,FlowHelper.getValueOrProp(beanPackage));
         classBeanInfo.setFields(table.getFields().stream().map(f-> new ClassField(f.getJavaType(), f.getName())).collect(Collectors.toList()));
 
 
@@ -39,7 +53,6 @@ public class DbBeanGenAction extends AbstractFlowAction {
         Class clz = FlowUtils.groovyClass(script);
 
         context.put(CoderFlowKeys.beanClass, clz);
-        context.put(CoderFlowKeys.beanClassFullName, clz.getName());
         String javaSrc = CommonUtils.renderTemplate("template/javaBean.template", new JSONObject().fluentPut("src",clz));
 
         /** support writer */

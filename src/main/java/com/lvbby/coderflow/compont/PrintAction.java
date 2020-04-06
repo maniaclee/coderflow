@@ -37,18 +37,18 @@ public class PrintAction extends AbstractFlowAction {
 
     @Override
     public void invoke(FlowContext context) throws Exception {
-        String printKey = key;
-        if (StringUtils.isBlank(printKey)) {
-            printKey = FlowHelper.getValueOrProp(printKey);
+        String k = key;
+        if (StringUtils.isBlank(k)) {
+            k = FlowHelper.getValueOrProp(printKey);
         }
-        if (StringUtils.isBlank(printKey)) {
+        if (StringUtils.isBlank(k)) {
             return;
         }
-        Object value = FlowHelper.getValueOrProp(printKey);
+        Object value = FlowHelper.getValueOrProp(k);
         if(value!=null && !(value instanceof String)){
             value = JSON.toJSONString(value, true);
         }
 
-        System.out.println(String.format("print-[%s]:%s", printKey, value));
+        System.out.println(String.format("print-[%s]:%s", k, value));
     }
 }

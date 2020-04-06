@@ -58,8 +58,10 @@ public class MybatisTest {
 
     @Test
     public void mybatisJsonConfig() throws Exception {
-        Flow.loadConfig(FlowUtils.readResourceFile("flow/mybatis.json"));
         Flow.scanActions("com.lvbby.coderflow");
+        Flow.scanProps("com.lvbby.coderflow");
+
+        Flow.loadConfig(FlowUtils.readResourceFile("flow/mybatis.json"));
         Flow.exec(new FlowContext("mybatisTest"));
     }
 
